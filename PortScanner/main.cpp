@@ -16,12 +16,11 @@ int main(int argc, char* argv[]) {
     int endPort = std::stoi(argv[3]);
     std::vector<int> openPorts;
 
-    WinsockManager wsManager; // Инициализация Winsock
-    ThreadPool pool(50); // Создание пула потоков
+    WinsockManager wsManager;
+    ThreadPool pool(50);
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Здесь использовать pool.enqueueTask() для добавления задач в пул
     for (int port = startPort; port <= endPort; ++port) {
         while (pool.getActiveThreads() >= pool.getMaxThreads()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -30,7 +29,7 @@ int main(int argc, char* argv[]) {
         pool.enqueueTask([ip, port, &openPorts, &pool] { CheckPort(ip, port, openPorts, pool); });
     }
 
-    pool.shutdown(); // Завершение работы пула и ожидание всех потоков
+    pool.shutdown();
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
