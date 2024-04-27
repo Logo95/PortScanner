@@ -1,0 +1,10 @@
+﻿  main.cpp
+  PortScanner.cpp
+  ThreadPool.cpp
+  WinsockManager.cpp
+  Создание кода
+  460 of 466 functions (98.7%) were compiled, the rest were copied from previous compilation.
+    31 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  PortScanner.vcxproj -> C:\Users\seriy\source\repos\PortScanner\Release\PortScanner.exe
