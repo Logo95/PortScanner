@@ -1,5 +1,6 @@
 // ThreadPool.cpp
 #include "ThreadPool.h"
+#include <iostream>
 
 ThreadPool::ThreadPool(int numThreads) : done(false), activeThreads(0), maxThreads(numThreads) {
     for (int i = 0; i < numThreads; ++i) {
@@ -30,17 +31,24 @@ void ThreadPool::shutdown() {
 }
 
 void ThreadPool::worker() {
-    while (!done || !tasks.empty()) {
-        std::function<void()> task;
-        {
-            std::unique_lock<std::mutex> lock(mtx);
-            cv.wait(lock, [this] { return !tasks.empty() || done; });
-            if (tasks.empty()) continue;
-            task = std::move(tasks.front());
-            tasks.pop();
+    try {
+        while (!done || !tasks.empty()) {
+            std::function<void()> task;
+            {
+                std::unique_lock<std::mutex> lock(mtx);
+                cv.wait(lock, [this] { return !tasks.empty() || done; });
+                if (tasks.empty()) continue;
+                task = std::move(tasks.front());
+                tasks.pop();
+            }
+            task();
         }
-        task();
-        decrementActiveThreads();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception in a thread: " << e.what() << std::endl;
+    }
+    catch (...) {
+        std::cerr << "Unknown exception in a thread." << std::endl;
     }
 }
 

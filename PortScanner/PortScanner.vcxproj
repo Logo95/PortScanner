@@ -142,10 +142,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PortScanner.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
+    <ClCompile Include="ValidCheck.cpp" />
     <ClCompile Include="WinsockManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PortScanner.h" />
+    <ClInclude Include="ValidCheck.h" />
     <ClInclude Include="WinsockManager.h" />
     <ClInclude Include="ThreadPool.h" />
   </ItemGroup>
